@@ -8,6 +8,7 @@ from bases.vision.load import get_data_loader
 from control.algorithm import ControlModule
 from bases.vision.sampler import FLSampler
 from bases.nn.models.vgg import VGG11
+from bases.nn.models.vgg_spiking import SNN_VGG11_BNTT
 from configs.cifar10 import *
 import configs.cifar10 as config
 
@@ -72,7 +73,8 @@ if __name__ == "__main__":
     num_users = 100
     num_slices = num_users if args.client_selection else NUM_CLIENTS
 
-    server = CIFAR10AdaptiveServer(args, config, VGG11())
+    # server = CIFAR10AdaptiveServer(args, config, VGG11())
+    server = CIFAR10AdaptiveServer(args, config, SNN_VGG11_BNTT())
     list_models, list_indices = server.init_clients()
 
     sampler = FLSampler(list_indices, MAX_ROUND, NUM_LOCAL_UPDATES * CLIENT_BATCH_SIZE, args.client_selection,
